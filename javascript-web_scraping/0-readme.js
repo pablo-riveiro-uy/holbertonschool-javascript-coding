@@ -7,10 +7,6 @@ fs.readFile(filename, 'utf-8', (err, res) => {
   if (err) {
     console.error(err);
   } else {
-    if (res.length === 0) {
-      console.log('empty');
-    } else {
-      console.log(res);
-    }
+    console.log(res);
   }
 });
