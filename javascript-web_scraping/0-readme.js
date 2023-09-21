@@ -4,9 +4,13 @@ const filename = process.argv[2];
 const fs = require('fs');
 
 fs.readFile(filename, 'utf-8', (err, res) => {
-  if (res) {
-    console.log(res);
-  } else {
+  if (err) {
     console.error(err);
+  } else {
+    if (res.length === 0) {
+      console.log('empty');
+    } else {
+      console.log(res);
+    }
   }
 });
