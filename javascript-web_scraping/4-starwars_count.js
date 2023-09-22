@@ -3,7 +3,6 @@
 const request = require('request');
 const url = process.argv[2];
 let filmIsOn = 0;
-const character = 'https://swapi-api.hbtn.io/api/people/18/';
 request(url, function (error, response) {
   if (error) {
     console.error(error);
@@ -12,7 +11,7 @@ request(url, function (error, response) {
     const films = results.results;
     films.forEach(film => {
       for (const actor of film.characters) {
-        if (actor === character) { filmIsOn += 1; }
+        if (actor.includes('18')) { filmIsOn += 1; }
       }
     });
   }
