@@ -14,7 +14,7 @@ request(url, (err, response, body) => {
       data.forEach(countTask => {
         if (countTask.userId === actualUser && countTask.completed === true) { completedTasks += 1; }
       });
-      results[actualUser] = completedTasks;
+      if (completedTasks !== 0) { results[actualUser] = completedTasks; }
     });
   }
   console.log(results);
