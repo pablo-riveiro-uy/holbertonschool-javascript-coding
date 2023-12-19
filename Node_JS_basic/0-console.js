@@ -6,4 +6,3 @@ const displayMessage = (data) => {
 }
 
 module.exports = displayMessage;
-
