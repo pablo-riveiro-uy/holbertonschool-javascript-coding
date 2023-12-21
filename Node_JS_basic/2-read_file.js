@@ -39,11 +39,11 @@ const countStudents = (path) => {
         }
         if (!FIELD) [, , , FIELD] = e;
         if (e[3] === FIELD) {
-          LIST_OF_FIRSTNAMES.push(e[0]);
+          LIST_OF_FIRSTNAMES.push(' ' + e[0]);
           stByField += 1;
         } else {
           [, , , FIELD2] = e;
-          LIST_OF_FIRSTNAMES2.push(e[0]);
+          LIST_OF_FIRSTNAMES2.push(' ' + e[0]);
           stByField2 += 1;
         }
       }
@@ -51,8 +51,8 @@ const countStudents = (path) => {
 
     process.stdout.write(`Number of students: ${stCount}\n`);
 
-    process.stdout.write(`Number of students in ${FIELD}: ${stByField}. List: ${LIST_OF_FIRSTNAMES}\n`);
-    process.stdout.write(`Number of students in ${FIELD2}: ${stByField2}. List: ${LIST_OF_FIRSTNAMES2}\n`);
+    process.stdout.write(`Number of students in ${FIELD}: ${stByField}. List:${LIST_OF_FIRSTNAMES}\n`);
+    process.stdout.write(`Number of students in ${FIELD2}: ${stByField2}. List:${LIST_OF_FIRSTNAMES2}\n`);
   });
 };
 
