@@ -1,6 +1,5 @@
 const fs = require('fs');
-
-const csv = require('csv-parser');
+const readline = require('readline');
 
 const results = [];
 
@@ -13,35 +12,46 @@ const countStudents = (path) => {
   const LIST_OF_FIRSTNAMES = [];
   const LIST_OF_FIRSTNAMES2 = [];
 
-  fs.readFile(path, (err, data) => {
-    if (err) {
-      throw new Error('Cannot load the database');
-    }
+  const readStream = fs.createReadStream(path);
 
-    fs.createReadStream(path)
-      .pipe(csv())
-      .on('data', (data) => results.push(data))
-      .on('end', () => {
-        results.forEach((e) => {
-          if (e.length !== 0) {
-            stCount += 1;
-          }
-          if (!FIELD) FIELD = e.field;
-          if (e.field === FIELD) {
-            LIST_OF_FIRSTNAMES.push(e.firstname);
-            stByField += 1;
-          } else {
-            FIELD2 = e.field;
-            LIST_OF_FIRSTNAMES2.push(e.firstname);
-            stByField2 += 1;
-          }
-        });
+  const readInterface = readline.createInterface({
+    input: readStream,
+  });
 
-        process.stdout.write(`Number of students: ${stCount}\n`);
+  // Event handler for reading lines
+  readInterface.on('line', (line) => {
+    const row = line.split(',');
+    results.push(row);
+  });
 
-        process.stdout.write(`Number of students in ${FIELD}: ${stByField}. List: ${LIST_OF_FIRSTNAMES}\n`);
-        process.stdout.write(`Number of students in ${FIELD2}: ${stByField2}. List: ${LIST_OF_FIRSTNAMES2}\n`);
-      });
+  // Event handler for the end of file
+  readInterface.on('close', () => {
+    results.forEach((e, i) => {
+      if (i !== 0) {
+        if (e[i] !== 0) {
+          stCount += 1;
+        }
+        if (!FIELD) [, , , FIELD] = e;
+        if (e[3] === FIELD) {
+          LIST_OF_FIRSTNAMES.push(e[0]);
+          stByField += 1;
+        } else {
+          [, , , FIELD2] = e;
+          LIST_OF_FIRSTNAMES2.push(e[0]);
+          stByField2 += 1;
+        }
+      }
+    });
+
+    // Event handler for handling errors
+    readInterface.on('error', (err) => {
+      console.error('Cannot load the database', err);
+    });
+
+    process.stdout.write(`Number of students: ${stCount}\n`);
+
+    process.stdout.write(`Number of students in ${FIELD}: ${stByField}. List: ${LIST_OF_FIRSTNAMES}\n`);
+    process.stdout.write(`Number of students in ${FIELD2}: ${stByField2}. List: ${LIST_OF_FIRSTNAMES2}\n`);
   });
 };
 
