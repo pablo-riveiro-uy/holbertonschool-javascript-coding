@@ -12,6 +12,12 @@ const countStudents = (path) => {
   const LIST_OF_FIRSTNAMES = [];
   const LIST_OF_FIRSTNAMES2 = [];
 
+  fs.readFile(path, 'utf8', (error) => {
+    if (error) {
+      throw new Error('Cannot load the database');
+    }
+  });
+
   const readStream = fs.createReadStream(path);
 
   const readInterface = readline.createInterface({
@@ -41,11 +47,6 @@ const countStudents = (path) => {
           stByField2 += 1;
         }
       }
-    });
-
-    // Event handler for handling errors
-    readInterface.on('error', (err) => {
-      console.error('Cannot load the database', err);
     });
 
     process.stdout.write(`Number of students: ${stCount}\n`);
