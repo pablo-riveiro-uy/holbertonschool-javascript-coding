@@ -39,11 +39,11 @@ const countStudents = (path) => {
         }
         if (!FIELD) [, , , FIELD] = e;
         if (e[3] === FIELD) {
-          LIST_OF_FIRSTNAMES.push(' ' + e[0]);
+          LIST_OF_FIRSTNAMES.push(` ${e[0]}`);
           stByField += 1;
         } else {
           [, , , FIELD2] = e;
-          LIST_OF_FIRSTNAMES2.push(' ' + e[0]);
+          LIST_OF_FIRSTNAMES2.push(` ${e[0]}`);
           stByField2 += 1;
         }
       }
