@@ -12,11 +12,11 @@ const countStudents = (path) => {
   const LIST_OF_FIRSTNAMES = [];
   const LIST_OF_FIRSTNAMES2 = [];
 
-  fs.readFile(path, 'utf8', (error) => {
-    if (error) {
-      throw new Error('Cannot load the database');
-    }
-  });
+  try {
+    fs.readFileSync(path, 'utf8');
+  } catch (error) {
+    throw new Error('Cannot load the database');
+  }
 
   const readStream = fs.createReadStream(path);
 
